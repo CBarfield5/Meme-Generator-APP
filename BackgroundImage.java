@@ -1,7 +1,4 @@
 //Christopher Barfield 
-//cdb8da
-//CS2110 - Homework 3
-//3-13-2021
 
 public class BackgroundImage {
 	private String imageFileName;
