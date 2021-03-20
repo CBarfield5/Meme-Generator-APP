@@ -1,4 +1,7 @@
 //Christopher Barfield 
+//cdb8da
+//CS2110 - Homework 4
+//3-20-2021
 
 public class BackgroundImage {
 	private String imageFileName;
@@ -72,17 +75,4 @@ public class BackgroundImage {
 			return false;
 		return true;
 	}
-	public static void main(String[] args) {
-		//Constructors
-		BackgroundImage back1 = new BackgroundImage("File1", "Chris Stays Inside", "Christopher wastes time playing his playstation 5 instead of being productive");
-		BackgroundImage back2 = new BackgroundImage("File2","Chris Goes Outside","Christopher takes his talents outside to stay in shape");
-		// toString methods
-		System.out.println(back1.toString());
-		System.out.println(back2.toString());
-		// equals methods
-		System.out.println(back1.equals(back1));
-		System.out.println(back2.equals(back1));
-		System.out.println(back2.equals(back2));
-	}
-
 }

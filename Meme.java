@@ -1,7 +1,7 @@
 //Christopher Barfield 
 //cdb8da
-//CS2110 - Homework 3
-//3-13-2021
+//CS2110 - Homework 4
+//3-20-2021
 
 import java.util.Arrays;
 
@@ -130,7 +130,7 @@ public class Meme {
 	
 	@Override
 	public String toString() {
-		return backgroundImage + " '" + caption + "' " + String.valueOf(calculateOverallRating()) + "[+1: " + String.valueOf(numRatingsPos()) + ", -1: " + String.valueOf(numRatingsNeg()) + "]";
+		return backgroundImage + " '" + caption + "' " + String.valueOf(calculateOverallRating()) + "[+1: " + String.valueOf(numRatingsPos()) + ", -1: " + String.valueOf(numRatingsNeg()) + "] - created by " + this.getCreator().getUserName();
 	}
 	
 	@Override
@@ -171,28 +171,72 @@ public class Meme {
 	public static void main(String[] args) {
 		
 		//Constructors
+		User user1 = new User("VonfromdaWicc");
+		User user2 = new User("Durkioo");
+		User user3 = new User("Lil_Herb");
+		User user4 = new User("FBG_Wooski");
 		BackgroundImage back1 = new BackgroundImage("File1", "Chris Stays Inside", "Christopher wastes time playing his playstation 5 instead of being productive");
 		BackgroundImage back2 = new BackgroundImage("File2","Chris Goes Outside","Christopher takes his talents outside to stay in shape");
-		Meme me1 = new Meme(back1, "Christopher wastes time playing his playstation 5 instead of being productive", null);
-		Meme me2 = new Meme(back2, "Christopher takes his talents outside to stay in shape", null);
-		Rating rat1 = new Rating(null, 0);
-		Rating rat2 = new Rating(null, -1);
-		Rating rat3 = new Rating(null, 1);
-		Rating rat4 = new Rating(null, 1);
+		Meme me1 = new Meme(back1, "Christopher wastes time playing his playstation 5 instead of being productive", user1);
+		Meme me2 = new Meme(back2, "Christopher takes his talents outside to stay in shape", user2);
+		Feed feed1 = new Feed();
+		Feed feed2 = new Feed();
+		Rating rat1 = new Rating(user1, 0);
+		Rating rat2 = new Rating(user2, -1);
+		Rating rat3 = new Rating(user1, 1);
+		Rating rat4 = new Rating(user2, -2);
+		
+		// Add Rating
+		me1.addRating(rat1);
+		me2.addRating(rat2);
+		me2.addRating(rat1);
+		me1.addRating(rat2);
+		
+		// getNewMeme
+		System.out.println(feed1.getNewMeme(user1));
+		System.out.println(feed2.getNewMeme(user2));
+		
+		// rateMeme
+		user1.rateMeme(me2, 1);
+		user2.rateMeme(me2, 0);
+		
+		// rateNextMemeFromFeed
+		user1.rateNextMemeFromFeed(feed1, 1);
+		user1.rateNextMemeFromFeed(feed1, 1);
+		user2.rateNextMemeFromFeed(feed2, 0);
+		user2.rateNextMemeFromFeed(feed2, 1);
+		
+		// createMeme
+		user1.createMeme(back1, "What a waste of talent!");
+		user2.createMeme(back2, "Much wow!");
+		
+		// deleteMeme
+		user1.deleteMeme(me1);
+		user2.deleteMeme(me2);
+		
+		// shareMeme
+		user1.shareMeme(me1, feed1);
+		user1.shareMeme(me2, feed2);
+		
+		// equals methods
+		System.out.println(user1.equals(user2));
+		System.out.println(user1.equals(user1));
+		System.out.println(user2.equals(user1));
+		
+		// calculateReputation
+		System.out.println(user1.calculateReputation());
+		System.out.println(user2.calculateReputation());
+		
 		// toString methods
 		System.out.println(me1.toString());
 		System.out.println(me2.toString());
-		// Add Rating
-		System.out.println(me1.addRating(rat1));
-		System.out.println(me2.addRating(rat2));
-		// Vertical Align
-		System.out.println(me1.setCaptionVerticalAlign("top"));
-		System.out.println(me2.setCaptionVerticalAlign("middle"));
-		// equals methods
-		System.out.println(me1.equals(me2));
-		System.out.println(me2.equals(me2));
-		System.out.println(me2.equals(me1));
-		
-		
+		System.out.println(user1.toString());
+		System.out.println(user2.toString());
+		System.out.println(user3.toString());
+		System.out.println(user4.toString());
+		System.out.println(feed1.toString());
+		System.out.println(feed2.toString());
+		System.out.println(rat1.toString());
+		System.out.println(rat2.toString());
 	}
 }

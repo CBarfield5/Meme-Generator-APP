@@ -1,7 +1,7 @@
 //Christopher Barfield 
 //cdb8da
-//CS2110 - Homework 3
-//3-13-2021
+//CS2110 - Homework 4
+//3-20-2021
 
 public class Rating {
 	private User user;
@@ -41,13 +41,13 @@ public class Rating {
 	@Override
 	public String toString() {
 		if (score == -1) {
-			return "Rating was a downvote";
+			return user.getUserName() + " rated as a downvote";
 		}
 		else if (score == 0) {
-			return "Rating was a pass";
+			return user.getUserName() + " rated as a pass";
 		}
 		else {
-			return "Rating was an upvote";
+			return user.getUserName() + " rated as an upvote";
 		}
 	}
 
@@ -68,22 +68,5 @@ public class Rating {
 		} else if (!user.equals(other.user))
 			return false;
 		return true;
-	}
-	public static void main(String[] args) {
-		// Constructors
-		Rating rat1 = new Rating(null, 1);
-		Rating rat2 = new Rating(null, 0);	
-		rat1.score = 1;
-		rat2.score = -1; 
-		// toString methods
-		System.out.println(rat1.toString());
-		System.out.println(rat2.toString());
-		// setScore methods
-		System.out.println(rat1.setScore(1));
-		System.out.println(rat2.setScore(0));
-		// equals methods
-		System.out.println(rat1.equals(rat2));
-		System.out.println(rat2.equals(rat1));
-		System.out.println(rat2.equals(rat2));
 	}
 }
