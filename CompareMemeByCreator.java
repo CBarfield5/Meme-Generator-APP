@@ -1,3 +1,5 @@
+// @author Christopher Barfield
+
 import java.util.ArrayList;
 import java.util.Comparator;
 
