@@ -1,7 +1,4 @@
-//Christopher Barfield 
-//cdb8da
-//CS2110 - Homework 4
-//3-20-2021
+// @author Christopher Barfield
 
 public class Rating {
 	private User user;
