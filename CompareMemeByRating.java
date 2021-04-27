@@ -1,3 +1,5 @@
+// @author Christopher Barfield
+
 import java.util.Comparator;
 
 public class CompareMemeByRating implements Comparator<Meme> {
