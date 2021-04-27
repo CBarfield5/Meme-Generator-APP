@@ -1,29 +1,35 @@
 //Christopher Barfield 
 //cdb8da
-//CS2110 - Homework 4
-//3-20-2021
-import java.util.ArrayList;
+//CS2110 - Homework 5
+//4 - 3 -2021
 
-public class User {
+
+import java.util.ArrayList;
+import java.util.TreeSet;
+
+public class User implements Comparable<User>{
 	private String userName;
 	private ArrayList<Meme> memesCreated;
-	private ArrayList<Meme> memesViewed;
+	private TreeSet<Meme> memesViewed;
 
 	public User() {
 		this.userName="Name";
 		this.memesCreated= new ArrayList<Meme>();
-		this.memesViewed= new ArrayList<Meme>();
+		this.memesViewed= new TreeSet<Meme>();
 	}
 	
 	public User(String userName) {
 		this.userName = userName;
 		this.memesCreated= new ArrayList<Meme>();
-		this.memesViewed= new ArrayList<Meme>();
+		this.memesViewed= new TreeSet<Meme>();
 	}
 	
 	public void rateMeme(Meme view, int rating) {
-		this.memesViewed.add(view);
-		new Rating(this, rating);
+		if (view!=null) {
+		memesViewed.add(view);
+		Rating add = new Rating(this, rating);
+		view.addRating(add);
+		}
 	}
 	public Meme createMeme(BackgroundImage picture, String caption) {
 		Meme m = new Meme(picture, caption, this);
@@ -31,26 +37,25 @@ public class User {
 		return m;
 	}
 	public boolean deleteMeme(Meme delete) {
-		for (int i = 0; i < memesCreated.size(); i++) {
-			if(memesCreated.get(i).equals(delete)) {
-				if (delete.getShared() == false) {
-					memesCreated.remove(delete);
-					return true;
-					}
-				else {
-					return false;
-					}
-			}
+		ArrayList<Meme> build = new ArrayList<Meme>();
+		build = this.getMemesCreated();	
+		if (build.contains(delete)) {
+			//int memeInd = build.indexOf(delete);
+			//if (build.get(memeInd).getShared() == false);{
+				//build.remove(memeInd);
+				//this.setMemesCreated(build);
+				//return true;
+			//}
 		}
 		return false;
 	}
 
-	public void shareMeme(Meme share, Feed f) {
-		share.setShared(true);
-		ArrayList<Meme> nextFeed = new ArrayList<Meme>();
-		nextFeed.addAll(f.getMemes());
-		nextFeed.add(share);
-		f.setMemes(nextFeed);
+	public void shareMeme(Meme meme, Feed feed)
+	{
+		meme.setShared(true);
+		ArrayList<Meme> build = feed.getMemes();
+		build.add(meme); 
+		feed.setMemes(build);
 	}
 	
 	public boolean rateNextMemeFromFeed(Feed time, int rating) {
@@ -64,6 +69,22 @@ public class User {
 			return false;
 		}
 	}	
+	
+	public int compareTo(User o1) {
+		//Sort by username
+		
+		int name = this.getUserName().compareTo(o1.getUserName());
+		if (name != 0) 
+			return name;
+		
+		//Sort by number of memes created
+		
+		int memes = o1.getMemesCreated().size() - this.getMemesCreated().size();
+		if (memes != 0)
+			return memes;
+		return memes;
+	}
+	
 	public String getUserName() {
 		return userName;
 	}
@@ -81,29 +102,37 @@ public class User {
 	}
 	
 	public ArrayList<Meme> getMemesViewed() {
-		return memesViewed;
+		ArrayList<Meme> accumList = new ArrayList<Meme>();
+		for (Meme view : memesViewed) {
+			accumList.add(view);
+		}
+		return accumList;
 	}
 	
 	public void setMemesViewed(ArrayList<Meme> memesViewed) {
-		this.memesViewed = memesViewed;
+		ArrayList<Meme> setView = new ArrayList<Meme>();
+		for (Meme set : memesViewed) {
+			setView.add(set);
+		}
 	}
 	
 	public double calculateReputation() {
-		double calc = 0;
-		if(memesCreated.size() == 0) {
-			return 0.0;
+		double calc = 0.0;
+		for(Meme meme : memesCreated) {
+			if(meme == null) {
+				calc += 0.0;
+			}
+			else {
+				calc += meme.calculateOverallRating();
+			}
+		}
+		if (memesCreated.size() == 0) {
+			calc = 0.0;
 		}
 		else {
-			for (int i = 0; i < memesCreated.size(); i++) {
-				if(memesCreated.get(i).getRatings()== null) {
-					calc += 0.0;
-				}
-				else {
-					calc += memesCreated.get(i).calculateOverallRating();
-				}
-			}
-			return calc /memesCreated.size();
+			calc = calc/(memesCreated.size());
 		}
+		return calc;
 	}
 
 	@Override
@@ -134,13 +163,6 @@ public class User {
 	}
 	@Override
 	public String toString() {
-		int size = 0;
-		if (this.memesViewed == null) {
-			size = 0;
-		}
-		else {
-			size = this.memesViewed.size();
-		}
-		return this.userName + " has rated (" + size + ") memes, (" + calculateReputation() + ")";
+		return this.userName + " has rated (" + this.getMemesViewed().size() + ") memes, (" + calculateReputation() + ")";
 	}
 }

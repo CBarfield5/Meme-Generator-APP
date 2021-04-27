@@ -1,9 +1,10 @@
 //Christopher Barfield 
 //cdb8da
-//CS2110 - Homework 4
-//3-20-2021
+//CS2110 - Homework 5
+//4 - 3 -2021
 
-public class BackgroundImage {
+
+public class BackgroundImage implements Comparable<BackgroundImage>{
 	private String imageFileName;
 	private String title;
 	private String description; 
@@ -74,5 +75,24 @@ public class BackgroundImage {
 		} else if (!title.equals(other.title))
 			return false;
 		return true;
+	}
+
+	public int compareTo(BackgroundImage o1) {
+		//Sort by filename
+		
+		int file = this.getImageFileName().compareTo(o1.getImageFileName());
+		if (file != 0)
+			return file;
+		
+		//Sort by title
+		
+		int title = this.getTitle().compareTo(o1.getTitle());
+		if (title != 0)
+			return title;
+		
+		//Sort by description
+		
+		int desc = this.getDescription().compareTo(o1.getDescription());
+		return desc;
 	}
 }

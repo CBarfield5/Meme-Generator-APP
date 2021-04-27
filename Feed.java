@@ -50,8 +50,8 @@ public class Feed {
 	@Override
 	public String toString() {
 		String returnString = "";
-		for(Meme memes : this.memes) {
-			returnString += memes;
+		for(Meme memes : memes) {
+			returnString += memes + "\n";
 		}
 		return returnString;
 	}

@@ -5,7 +5,7 @@
 
 import java.util.Arrays;
 
-public class Meme {
+public class Meme implements Comparable<Meme>{
 	private User creator;
 	private BackgroundImage backgroundImage; 
 	private Rating[] ratings; 
@@ -19,7 +19,7 @@ public class Meme {
 		this.ratings= new Rating[10];
 		this.caption = "";
 		this.captionVerticalAlign = "bottom";
-		shared = true;
+		shared = false;
 	}
 	public Meme(BackgroundImage a, String caption, User user) {
 		this.creator= user;
@@ -27,14 +27,10 @@ public class Meme {
 		this.ratings= new Rating[10];
 		this.caption = caption;
 		this.captionVerticalAlign = "bottom";
-		shared = true;
 	}
 	
 	public boolean addRating (Rating rating) {
 		int len = ratings.length;
-		if (rating == null) {
-			return false;
-		}
 		for (int i = 0; i< len; i++) {
 			if (ratings[i] == null) {
 				ratings[i] = rating;
@@ -48,7 +44,7 @@ public class Meme {
 		return true;
 	}
 		
-	private int numRatingsPos () {
+	public int numRatingsPos () {
 		int len = ratings.length;
 		int sum = 0;
 		for (int i = 0; i< len; i++) {
@@ -61,7 +57,44 @@ public class Meme {
 		return sum;
 	}
 	
-	private int numRatingsNeg () {
+	public int compareTo(Meme o1) {
+		//Sort by caption
+		
+		int caption = this.getCaption().compareTo(o1.getCaption());
+		if (caption != 0) 
+			return caption;
+		
+		//Sort by background image
+		
+		int back = this.backgroundImage.compareTo(o1.getBackgroundImage());
+		if (back != 0)
+			return back;
+		
+		//Sort by ratings
+		
+		int ratings = (int) (o1.calculateOverallRating() - this.calculateOverallRating());
+		if (ratings != 0)
+			return ratings;
+		
+		//Sort by shared Memes first
+		
+		int shared = 0;
+		if (this.getShared() == true && o1.getShared() == true) {
+			shared = 0; 
+		}
+		if (this.getShared() == false && o1.getShared() == false) {
+			shared = 0; 
+		}
+		if (this.getShared() == true && o1.getShared() == false) {
+			shared = -1;	
+		}
+		if (this.getShared() == false && o1.getShared() == true) {
+			shared = 1;
+		}
+		return shared;
+	}
+	
+	public int numRatingsNeg () {
 		int len = ratings.length;
 		int sum = 0;
 		for (int i = 0; i< len; i++) {
@@ -130,7 +163,7 @@ public class Meme {
 	
 	@Override
 	public String toString() {
-		return backgroundImage + " '" + caption + "' " + String.valueOf(calculateOverallRating()) + "[+1: " + String.valueOf(numRatingsPos()) + ", -1: " + String.valueOf(numRatingsNeg()) + "] - created by " + this.getCreator().getUserName();
+		return backgroundImage + " '" + caption + "' " + calculateOverallRating() + " [+1: " + String.valueOf(numRatingsPos()) + ", -1: " + String.valueOf(numRatingsNeg()) + "] - created by " + this.getCreator().getUserName();
 	}
 	
 	@Override
@@ -152,10 +185,7 @@ public class Meme {
 				return false;
 		} else if (!caption.equals(other.caption))
 			return false;
-		if (captionVerticalAlign == null) {
-			if (other.captionVerticalAlign != null)
-				return false;
-		} else if (!captionVerticalAlign.equals(other.captionVerticalAlign))
+		if (!captionVerticalAlign.equals(other.captionVerticalAlign))
 			return false;
 		if (creator == null) {
 			if (other.creator != null)
@@ -167,76 +197,13 @@ public class Meme {
 		if (shared != other.shared)
 			return false;
 		return true;
-	}
-	public static void main(String[] args) {
-		
-		//Constructors
-		User user1 = new User("VonfromdaWicc");
-		User user2 = new User("Durkioo");
-		User user3 = new User("Lil_Herb");
-		User user4 = new User("FBG_Wooski");
-		BackgroundImage back1 = new BackgroundImage("File1", "Chris Stays Inside", "Christopher wastes time playing his playstation 5 instead of being productive");
-		BackgroundImage back2 = new BackgroundImage("File2","Chris Goes Outside","Christopher takes his talents outside to stay in shape");
-		Meme me1 = new Meme(back1, "Christopher wastes time playing his playstation 5 instead of being productive", user1);
-		Meme me2 = new Meme(back2, "Christopher takes his talents outside to stay in shape", user2);
-		Feed feed1 = new Feed();
-		Feed feed2 = new Feed();
-		Rating rat1 = new Rating(user1, 0);
-		Rating rat2 = new Rating(user2, -1);
-		Rating rat3 = new Rating(user1, 1);
-		Rating rat4 = new Rating(user2, -2);
-		
-		// Add Rating
-		me1.addRating(rat1);
-		me2.addRating(rat2);
-		me2.addRating(rat1);
-		me1.addRating(rat2);
-		
-		// getNewMeme
-		System.out.println(feed1.getNewMeme(user1));
-		System.out.println(feed2.getNewMeme(user2));
-		
-		// rateMeme
-		user1.rateMeme(me2, 1);
-		user2.rateMeme(me2, 0);
-		
-		// rateNextMemeFromFeed
-		user1.rateNextMemeFromFeed(feed1, 1);
-		user1.rateNextMemeFromFeed(feed1, 1);
-		user2.rateNextMemeFromFeed(feed2, 0);
-		user2.rateNextMemeFromFeed(feed2, 1);
-		
-		// createMeme
-		user1.createMeme(back1, "What a waste of talent!");
-		user2.createMeme(back2, "Much wow!");
-		
-		// deleteMeme
-		user1.deleteMeme(me1);
-		user2.deleteMeme(me2);
-		
-		// shareMeme
-		user1.shareMeme(me1, feed1);
-		user1.shareMeme(me2, feed2);
-		
-		// equals methods
-		System.out.println(user1.equals(user2));
-		System.out.println(user1.equals(user1));
-		System.out.println(user2.equals(user1));
-		
-		// calculateReputation
-		System.out.println(user1.calculateReputation());
-		System.out.println(user2.calculateReputation());
-		
-		// toString methods
-		System.out.println(me1.toString());
-		System.out.println(me2.toString());
-		System.out.println(user1.toString());
-		System.out.println(user2.toString());
-		System.out.println(user3.toString());
-		System.out.println(user4.toString());
-		System.out.println(feed1.toString());
-		System.out.println(feed2.toString());
-		System.out.println(rat1.toString());
-		System.out.println(rat2.toString());
-	}
+		}
+	//public static void main(String[] args) {
+		//User u1 = new User();
+		//BackgroundImage back = new BackgroundImage();
+		//Meme me = new Meme(back, "Caption", u1);
+		//Rating rat1 = new Rating();
+		//System.out.println(me.addRating(rat1));
+		//System.out.println(me.toString());
+	//}
 }
