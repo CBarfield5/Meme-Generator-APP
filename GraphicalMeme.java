@@ -15,7 +15,10 @@ import javax.imageio.ImageIO;
  * 
  * This class extends the Meme class to provide Graphical functionality for Memes. It
  * provides a compileMeme function that takes a maximum dimension and produces an image
- * of this Meme.
+ * of this Meme. 
+ *
+ * This class is NOT the work of Christopher Barfield, this code is used
+ * to aid the functionality of the project.
  * 
  * @author CS2110 Spring 2021
  */
