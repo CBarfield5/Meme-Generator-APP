@@ -195,12 +195,4 @@ public class Meme implements Comparable<Meme>{
 			return false;
 		return true;
 		}
-	//public static void main(String[] args) {
-		//User u1 = new User();
-		//BackgroundImage back = new BackgroundImage();
-		//Meme me = new Meme(back, "Caption", u1);
-		//Rating rat1 = new Rating();
-		//System.out.println(me.addRating(rat1));
-		//System.out.println(me.toString());
-	//}
 }
