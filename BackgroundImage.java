@@ -1,7 +1,4 @@
-//Christopher Barfield 
-//cdb8da
-//CS2110 - Homework 5
-//4 - 3 -2021
+// @author Christopher Barfield
 
 
 public class BackgroundImage implements Comparable<BackgroundImage>{
