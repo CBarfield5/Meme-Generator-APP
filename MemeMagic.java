@@ -1,3 +1,6 @@
+// @author Christopher Barfield
+// Created with template from CS2110 class
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -50,10 +53,6 @@ public class MemeMagic extends JFrame {
 	private JTextField backgroundImageDescriptionTextField;
 
 	private JTextField memeCaptionTextField;
-    
-    //String title = backgroundImageTitleText.getText();
-	//String desc = backgroundImageDescriptionTextField.getText();
-	//String caption = memeCaptionTextField.getText();
     
     public MemeMagic() {
         this.user = new User();
